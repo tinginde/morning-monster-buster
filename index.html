@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 早起勇者 - 打怪起床</title>
+    <meta name="description" content="早起勇者 - 專為小朋友設計的趣味起床任務遊戲">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <!-- Header -->
+        <header class="game-header">
+            <h1>🎮 早起勇者</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">⭐ 關卡</span>
+                    <span class="stat-value" id="currentLevel">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🔥 連勝</span>
+                    <span class="stat-value" id="streak">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🏆 總勝</span>
+                    <span class="stat-value" id="totalWins">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Map Progress -->
+        <div class="map-progress">
+            <div class="map-track">
+                <div class="map-node" data-area="forest">🌲</div>
+                <div class="map-node" data-area="desert">🏜️</div>
+                <div class="map-node" data-area="ocean">🌊</div>
+                <div class="map-node" data-area="mountain">⛰️</div>
+                <div class="map-node" data-area="castle">🏰</div>
+            </div>
+            <div class="hero-marker" id="heroMarker">🦸</div>
+        </div>
+
+        <!-- Battle Arena -->
+        <div class="battle-arena">
+            <div class="monster-container">
+                <div class="monster-sprite" id="monsterSprite">
+                    <span class="monster-icon" id="monsterIcon">👹</span>
+                    <div class="damage-numbers" id="damageNumbers"></div>
+                </div>
+                <div class="monster-info">
+                    <h2 id="monsterName">森林哥布林</h2>
+                    <div class="health-bar-container">
+                        <div class="health-bar" id="monsterHealth">
+                            <div class="health-fill" id="healthFill"></div>
+                        </div>
+                        <span class="health-text" id="healthText">5/5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Warning -->
+        <div class="time-warning" id="timeWarning">
+            <div class="warning-icon">⏰</div>
+            <div class="countdown-display">
+                <div class="countdown-label">距離7:45還有</div>
+                <div class="countdown-timer" id="countdownTimer">--:--</div>
+            </div>
+        </div>
+
+        <!-- Quest List -->
+        <div class="quest-section">
+            <h2 class="section-title">📋 今日任務</h2>
+            <div class="quest-list">
+                <div class="quest-item" data-quest="dressed">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-dressed">
+                        <label for="quest-dressed"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🎽</span>
+                        <span class="quest-text">穿好衣服</span>
+                    </div>
+                </div>
+
+                <div class="quest-item" data-quest="breakfast">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-breakfast">
+                        <label for="quest-breakfast"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🍳</span>
+                        <span class="quest-text">吃完早餐</span>
+                    </div>
+                </div>
+
+                <div class="quest-item" data-quest="fishoil">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-fishoil">
+                        <label for="quest-fishoil"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🐟</span>
+                        <span class="quest-text">吃魚油</span>
+                    </div>
+                </div>
+
+                <div class="quest-item quest-timed" data-quest="door">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-door">
+                        <label for="quest-door"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🚪</span>
+                        <span class="quest-text">7:45前站到門口</span>
+                        <span class="time-bonus" id="timeBonus">⚡</span>
+                    </div>
+                </div>
+
+                <div class="quest-item" data-quest="toilet">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-toilet">
+                        <label for="quest-toilet"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🚽</span>
+                        <span class="quest-text">上廁所</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Victory Modal -->
+        <div class="modal" id="victoryModal">
+            <div class="modal-content victory">
+                <div class="victory-animation">🎉</div>
+                <h2>🏆 恭喜！打敗怪獸了！</h2>
+                <div class="victory-stats" id="victoryStats"></div>
+                <button class="btn-primary" id="nextDayBtn">開始新的一天 →</button>
+            </div>
+        </div>
+
+        <!-- Defeat Modal -->
+        <div class="modal" id="defeatModal">
+            <div class="modal-content defeat">
+                <div class="defeat-animation">💥</div>
+                <h2>😅 怪獸反擊了！</h2>
+                <p>別氣餒，明天再挑戰！</p>
+                <button class="btn-primary" id="retryBtn">明天再戰 →</button>
+            </div>
+        </div>
+
+        <!-- Reset Button (for testing/debugging) -->
+        <div class="debug-controls">
+            <button class="btn-secondary" id="resetBtn">🔄 重置進度</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
