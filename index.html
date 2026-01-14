@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="stars"></div>
     <div class="container">
@@ -35,11 +37,11 @@
         <!-- Map Progress -->
         <div class="map-progress">
             <div class="map-track">
-                <div class="map-node" data-area="forest">🌲</div>
-                <div class="map-node" data-area="desert">🏜️</div>
-                <div class="map-node" data-area="ocean">🌊</div>
-                <div class="map-node" data-area="mountain">⛰️</div>
-                <div class="map-node" data-area="castle">🏰</div>
+                <div class="map-node" data-area="candyland">🍬</div>
+                <div class="map-node" data-area="space">🚀</div>
+                <div class="map-node" data-area="toyfactory">🧸</div>
+                <div class="map-node" data-area="sky">☁️</div>
+                <div class="map-node" data-area="ultimate_arena">👑</div>
             </div>
             <div class="hero-marker" id="heroMarker">🦸</div>
         </div>
@@ -50,9 +52,11 @@
                 <div class="monster-sprite" id="monsterSprite">
                     <span class="monster-icon" id="monsterIcon">👹</span>
                     <div class="damage-numbers" id="damageNumbers"></div>
+                    <div class="defeat-effects" id="defeatEffects"></div>
                 </div>
                 <div class="monster-info">
-                    <h2 id="monsterName">森林哥布林</h2>
+                    <h2 id="monsterName">糖果爆爆熊</h2>
+                    <div class="monster-name-en" id="monsterNameEn">Candy Boom Bear</div>
                     <div class="health-bar-container">
                         <div class="health-bar" id="monsterHealth">
                             <div class="health-fill" id="healthFill"></div>
@@ -109,6 +113,17 @@
                     </div>
                 </div>
 
+                <div class="quest-item" data-quest="toilet">
+                    <div class="quest-checkbox">
+                        <input type="checkbox" id="quest-toilet">
+                        <label for="quest-toilet"></label>
+                    </div>
+                    <div class="quest-content">
+                        <span class="quest-icon">🚽</span>
+                        <span class="quest-text">上廁所</span>
+                    </div>
+                </div>
+
                 <div class="quest-item quest-timed" data-quest="door">
                     <div class="quest-checkbox">
                         <input type="checkbox" id="quest-door">
@@ -118,17 +133,6 @@
                         <span class="quest-icon">🚪</span>
                         <span class="quest-text">7:45前站到門口</span>
                         <span class="time-bonus" id="timeBonus">⚡</span>
-                    </div>
-                </div>
-
-                <div class="quest-item" data-quest="toilet">
-                    <div class="quest-checkbox">
-                        <input type="checkbox" id="quest-toilet">
-                        <label for="quest-toilet"></label>
-                    </div>
-                    <div class="quest-content">
-                        <span class="quest-icon">🚽</span>
-                        <span class="quest-text">上廁所</span>
                     </div>
                 </div>
             </div>
@@ -162,4 +166,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

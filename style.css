@@ -346,18 +346,133 @@ body {
 }
 
 .monster-sprite.defeated {
-    animation: defeated 1s forwards;
+    animation: defeatShake 0.3s ease-in-out, defeatFade 0.7s 0.3s forwards;
 }
 
-@keyframes defeated {
+@keyframes defeatShake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(-15px) rotate(-10deg);
+    }
+
+    50% {
+        transform: translateX(15px) rotate(10deg);
+    }
+
+    75% {
+        transform: translateX(-10px) rotate(-5deg);
+    }
+}
+
+@keyframes defeatFade {
     0% {
         opacity: 1;
         transform: scale(1) rotate(0deg);
     }
 
+    50% {
+        opacity: 0.8;
+        transform: scale(1.3) rotate(180deg);
+    }
+
     100% {
         opacity: 0;
         transform: scale(0) rotate(360deg);
+    }
+}
+
+/* Defeat Effects Container */
+.defeat-effects {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    width: 200px;
+    height: 200px;
+}
+
+/* Flash Effect */
+.flash-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    animation: flashBurst 0.5s ease-out forwards;
+}
+
+@keyframes flashBurst {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+/* Particle Effect */
+.particle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    animation: particleExplode 1s ease-out forwards;
+}
+
+@keyframes particleExplode {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx)),
+                calc(-50% + var(--ty))) scale(0);
+    }
+}
+
+/* Star Particle */
+.star-particle {
+    position: absolute;
+    font-size: 24px;
+    top: 50%;
+    left: 50%;
+    animation: starBurst 1s ease-out forwards;
+}
+
+@keyframes starBurst {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--tx)),
+                calc(-50% + var(--ty))) scale(1.5) rotate(360deg);
     }
 }
 
@@ -403,6 +518,14 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.monster-name-en {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 .health-bar-container {
@@ -634,6 +757,16 @@ body {
 
 .quest-checkbox input[type="checkbox"]:checked+label::after {
     transform: translate(-50%, -50%) scale(1);
+}
+
+.quest-checkbox input[type="checkbox"]:disabled+label {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--text-secondary);
+}
+
+.quest-checkbox input[type="checkbox"]:disabled {
+    cursor: not-allowed;
 }
 
 .quest-content {

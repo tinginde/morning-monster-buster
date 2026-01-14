@@ -27,20 +27,20 @@ const monsters = [
     // { area: 'mountain', name: '冰霜巨龍', icon: '🐲', health: 5 },
     // { area: 'castle', name: '暗黑騎士', icon: '⚔️', health: 5 },
     // { area: 'castle', name: '終極魔王', icon: '😈', health: 5 }
-    { area: 'candyland', name: '糖果爆爆熊', icon: '🍭', health: 5 },
-    { area: 'candyland', name: '巧克力史萊姆', icon: '🍫', health: 5 },
+    { area: 'candyland', name: '糖果爆爆熊', nameEn: 'Candy Boom Bear', icon: '🍭', health: 5 },
+    { area: 'candyland', name: '巧克力史萊姆', nameEn: 'Choco Slime', icon: '🍫', health: 5 },
 
-    { area: 'space', name: '外星果凍怪', icon: '👾', health: 5 },
-    { area: 'space', name: '太空機器狗', icon: '🤖', health: 5 },
+    { area: 'space', name: '外星果凍怪', nameEn: 'Alien Jelly', icon: '👾', health: 5 },
+    { area: 'space', name: '太空機器狗', nameEn: 'Robo Pup', icon: '🤖', health: 5 },
 
-    { area: 'toyfactory', name: '失控玩具兵', icon: '🪖', health: 5 },
-    { area: 'toyfactory', name: '彈簧小丑怪', icon: '🤡', health: 5 },
+    { area: 'toyfactory', name: '失控玩具兵', nameEn: 'Wild Toy Soldier', icon: '🪖', health: 5 },
+    { area: 'toyfactory', name: '彈簧小丑怪', nameEn: 'Spring Clown', icon: '🤡', health: 5 },
 
-    { area: 'sky', name: '雷雲守護者', icon: '⚡', health: 5 },
-    { area: 'sky', name: '風暴飛龍', icon: '🌪️', health: 5 },
+    { area: 'sky', name: '雷雲守護者', nameEn: 'Thunder Guardian', icon: '⚡', health: 5 },
+    { area: 'sky', name: '風暴飛龍', nameEn: 'Storm Dragon', icon: '🌪️', health: 5 },
 
-    { area: 'ultimate_arena', name: '黃金鎧甲勇者王', icon: '🛡️', health: 5 },
-    { area: 'ultimate_arena', name: '宇宙能量巨獸', icon: '💥', health: 5 }
+    { area: 'ultimate_arena', name: '黃金鎧甲勇者王', nameEn: 'Golden Armor King', icon: '🛡️', health: 5 },
+    { area: 'ultimate_arena', name: '宇宙能量巨獸', nameEn: 'Cosmic Beast', icon: '💥', health: 5 }
 
 ];
 
@@ -56,6 +56,11 @@ function initGame() {
     updateUI();
     setupEventListeners();
     startCountdown();
+
+    // If monster is already defeated today, lock quests
+    if (currentHealth <= 0) {
+        lockAllQuests();
+    }
 }
 
 // Load game state from localStorage
@@ -75,19 +80,35 @@ function saveGameState() {
 // Check if it's a new day
 function checkNewDay() {
     const today = new Date().toDateString();
+    const lastDate = gameState.lastCompletedDate;
 
-    if (gameState.lastCompletedDate !== today) {
-        // Reset daily quests
+    // If it's a new day
+    if (lastDate && lastDate !== today) {
+        // Check if yesterday's monster was defeated (all quests completed or health was 0)
+        const wasYesterdaySuccessful = currentHealth <= 0 ||
+            Object.values(gameState.quests).every(q => q);
+
+        // If successful yesterday, advance to next level
+        if (wasYesterdaySuccessful) {
+            gameState.currentLevel++;
+            gameState.currentArea = Math.floor((gameState.currentLevel - 1) / 2);
+        }
+        // If failed, retry the same level (currentLevel stays the same)
+
+        // Reset daily quests for new day
         Object.keys(gameState.quests).forEach(key => {
             gameState.quests[key] = false;
         });
 
-        // Select today's monster
+        // Select today's monster (based on current level)
         selectMonster();
+
+        // Unlock all quests for the new day
+        unlockAllQuests();
 
         saveGameState();
     } else {
-        // Load current monster
+        // Same day - load current monster and state
         const monsterIndex = gameState.currentLevel - 1;
         currentMonster = monsters[monsterIndex % monsters.length];
 
@@ -117,6 +138,7 @@ function updateUI() {
     // Update monster
     document.getElementById('monsterIcon').textContent = currentMonster.icon;
     document.getElementById('monsterName').textContent = currentMonster.name;
+    document.getElementById('monsterNameEn').textContent = currentMonster.nameEn;
     updateHealthBar();
 
     // Update map
@@ -244,19 +266,107 @@ function checkVictory() {
     if (currentHealth <= 0) {
         // Victory!
         const monsterSprite = document.getElementById('monsterSprite');
+
+        // Lock all quests (disable checkboxes)
+        lockAllQuests();
+
+        // Add defeat special effects
+        createDefeatEffects();
+
+        // Add defeated class for animation
         monsterSprite.classList.add('defeated');
 
         setTimeout(() => {
             showVictoryModal();
             monsterSprite.classList.remove('defeated');
+            clearDefeatEffects();
         }, 1000);
     }
+}
+
+// Lock all quest checkboxes
+function lockAllQuests() {
+    Object.keys(gameState.quests).forEach(questId => {
+        const checkbox = document.getElementById(`quest-${questId}`);
+        checkbox.disabled = true;
+    });
+}
+
+// Unlock all quest checkboxes
+function unlockAllQuests() {
+    Object.keys(gameState.quests).forEach(questId => {
+        const checkbox = document.getElementById(`quest-${questId}`);
+        checkbox.disabled = false;
+    });
+}
+
+// Create defeat special effects
+function createDefeatEffects() {
+    const effectsContainer = document.getElementById('defeatEffects');
+
+    // Clear any existing effects
+    effectsContainer.innerHTML = '';
+
+    // Create flash effect
+    const flash = document.createElement('div');
+    flash.className = 'flash-effect';
+    effectsContainer.appendChild(flash);
+
+    // Create colorful particles
+    const colors = ['#7f5af0', '#ff006e', '#72ddf7', '#ffd23f', '#06ffa5'];
+    const particleCount = 20;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        // Random direction
+        const angle = (Math.PI * 2 * i) / particleCount;
+        const distance = 100 + Math.random() * 50;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+        particle.style.animationDelay = `${Math.random() * 0.1}s`;
+
+        effectsContainer.appendChild(particle);
+    }
+
+    // Create star particles
+    const stars = ['⭐', '✨', '💫', '🌟'];
+    const starCount = 8;
+
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star-particle';
+        star.textContent = stars[Math.floor(Math.random() * stars.length)];
+
+        const angle = (Math.PI * 2 * i) / starCount;
+        const distance = 80 + Math.random() * 40;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        star.style.setProperty('--tx', `${tx}px`);
+        star.style.setProperty('--ty', `${ty}px`);
+        star.style.animationDelay = `${Math.random() * 0.2}s`;
+
+        effectsContainer.appendChild(star);
+    }
+}
+
+// Clear defeat effects
+function clearDefeatEffects() {
+    const effectsContainer = document.getElementById('defeatEffects');
+    effectsContainer.innerHTML = '';
 }
 
 // Show victory modal
 function showVictoryModal() {
     const modal = document.getElementById('victoryModal');
     const stats = document.getElementById('victoryStats');
+    const nextDayBtn = document.getElementById('nextDayBtn');
 
     // Update stats
     gameState.totalWins++;
@@ -271,7 +381,11 @@ function showVictoryModal() {
         <p>🏆 連續 ${gameState.streak} 天成功！</p>
         <p>⭐ 總共打敗 ${gameState.totalWins} 隻怪獸</p>
         ${unlockMessage ? `<p style="color: var(--accent-yellow); font-weight: 900;">${unlockMessage}</p>` : ''}
+        <p style="margin-top: 1rem; color: var(--accent-cyan); font-size: 0.95rem;">✨ 今天的任務完成了！明天見！</p>
     `;
+
+    // Change button text to close
+    nextDayBtn.textContent = '太棒了！ →';
 
     saveGameState();
     modal.classList.add('active');
@@ -289,26 +403,10 @@ function showDefeatModal() {
     modal.classList.add('active');
 }
 
-// Start new day
+// Start new day (now just closes the modal)
 function startNewDay() {
-    gameState.currentLevel++;
-
-    // Update area every 2 levels
-    gameState.currentArea = Math.floor((gameState.currentLevel - 1) / 2);
-
+    // Just close the modal - the real new day will be handled by checkNewDay()
     closeModals();
-
-    // Reset quests
-    Object.keys(gameState.quests).forEach(key => {
-        gameState.quests[key] = false;
-    });
-
-    selectMonster();
-    saveGameState();
-    updateUI();
-
-    // Reset countdown
-    startCountdown();
 }
 
 // Close all modals
@@ -370,7 +468,7 @@ function updateCountdown() {
     }
 
     // Check if past deadline and not all quests completed
-    if (now.getHours() === 7 && now.getMinutes() >= 45) {
+    if (now.getHours() === 7 && now.getMinutes() >= 46) {
         const doorQuest = gameState.quests.door;
         if (!doorQuest && currentHealth > 0) {
             // Monster counterattack!
