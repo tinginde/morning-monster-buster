@@ -17,16 +17,31 @@ const gameState = {
 
 // Monster Data
 const monsters = [
-    { area: 'forest', name: '森林哥布林', icon: '👹', health: 5 },
-    { area: 'forest', name: '樹妖精靈', icon: '🧚', health: 5 },
-    { area: 'desert', name: '沙漠蠍子王', icon: '🦂', health: 5 },
-    { area: 'desert', name: '火焰駱駝', icon: '🐫', health: 5 },
-    { area: 'ocean', name: '深海章魚怪', icon: '🐙', health: 5 },
-    { area: 'ocean', name: '鯊魚騎士', icon: '🦈', health: 5 },
-    { area: 'mountain', name: '雪山雪怪', icon: '🦍', health: 5 },
-    { area: 'mountain', name: '冰霜巨龍', icon: '🐲', health: 5 },
-    { area: 'castle', name: '暗黑騎士', icon: '⚔️', health: 5 },
-    { area: 'castle', name: '終極魔王', icon: '😈', health: 5 }
+    // { area: 'forest', name: '森林哥布林', icon: '👹', health: 5 },
+    // { area: 'forest', name: '樹妖精靈', icon: '🧚', health: 5 },
+    // { area: 'desert', name: '沙漠蠍子王', icon: '🦂', health: 5 },
+    // { area: 'desert', name: '火焰駱駝', icon: '🐫', health: 5 },
+    // { area: 'ocean', name: '深海章魚怪', icon: '🐙', health: 5 },
+    // { area: 'ocean', name: '鯊魚騎士', icon: '🦈', health: 5 },
+    // { area: 'mountain', name: '雪山雪怪', icon: '🦍', health: 5 },
+    // { area: 'mountain', name: '冰霜巨龍', icon: '🐲', health: 5 },
+    // { area: 'castle', name: '暗黑騎士', icon: '⚔️', health: 5 },
+    // { area: 'castle', name: '終極魔王', icon: '😈', health: 5 }
+    { area: 'candyland', name: '糖果爆爆熊', icon: '🍭', health: 5 },
+    { area: 'candyland', name: '巧克力史萊姆', icon: '🍫', health: 5 },
+
+    { area: 'space', name: '外星果凍怪', icon: '👾', health: 5 },
+    { area: 'space', name: '太空機器狗', icon: '🤖', health: 5 },
+
+    { area: 'toyfactory', name: '失控玩具兵', icon: '🪖', health: 5 },
+    { area: 'toyfactory', name: '彈簧小丑怪', icon: '🤡', health: 5 },
+
+    { area: 'sky', name: '雷雲守護者', icon: '⚡', health: 5 },
+    { area: 'sky', name: '風暴飛龍', icon: '🌪️', health: 5 },
+
+    { area: 'ultimate_arena', name: '黃金鎧甲勇者王', icon: '🛡️', health: 5 },
+    { area: 'ultimate_arena', name: '宇宙能量巨獸', icon: '💥', health: 5 }
+
 ];
 
 let currentMonster = null;
