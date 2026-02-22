@@ -27,20 +27,20 @@ const monsters = [
     // { area: 'mountain', name: '冰霜巨龍', icon: '🐲', health: 5 },
     // { area: 'castle', name: '暗黑騎士', icon: '⚔️', health: 5 },
     // { area: 'castle', name: '終極魔王', icon: '😈', health: 5 }
-    { area: 'candyland', name: '糖果爆爆熊', nameEn: 'Candy Boom Bear', icon: '🍭', health: 5 },
-    { area: 'candyland', name: '巧克力史萊姆', nameEn: 'Choco Slime', icon: '🍫', health: 5 },
+    { area: 'overworld', name: '殭屍', nameEn: 'Zombie', icon: '🧟', health: 5 },
+    { area: 'overworld', name: '苦力怕', nameEn: 'Creeper', icon: '💥', health: 5 },
 
-    { area: 'space', name: '外星果凍怪', nameEn: 'Alien Jelly', icon: '👾', health: 5 },
-    { area: 'space', name: '太空機器狗', nameEn: 'Robo Pup', icon: '🤖', health: 5 },
+    { area: 'overworld', name: '骷髏', nameEn: 'Skeleton', icon: '💀', health: 5 },
+    { area: 'overworld', name: '蜘蛛', nameEn: 'Spider', icon: '🕷️', health: 5 },
 
-    { area: 'toyfactory', name: '失控玩具兵', nameEn: 'Wild Toy Soldier', icon: '🪖', health: 5 },
-    { area: 'toyfactory', name: '彈簧小丑怪', nameEn: 'Spring Clown', icon: '🤡', health: 5 },
+    { area: 'nether', name: '烈焰使者', nameEn: 'Blaze', icon: '🔥', health: 5 },
+    { area: 'nether', name: '地獄幽靈', nameEn: 'Ghast', icon: '👻', health: 5 },
 
-    { area: 'sky', name: '雷雲守護者', nameEn: 'Thunder Guardian', icon: '⚡', health: 5 },
-    { area: 'sky', name: '風暴飛龍', nameEn: 'Storm Dragon', icon: '🌪️', health: 5 },
+    { area: 'nether', name: '豬靈', nameEn: 'Piglin', icon: '🐷', health: 5 },
+    { area: 'nether', name: '凋零骷髏', nameEn: 'Wither Skeleton', icon: '💀', health: 5 },
 
-    { area: 'ultimate_arena', name: '黃金鎧甲勇者王', nameEn: 'Golden Armor King', icon: '🛡️', health: 5 },
-    { area: 'ultimate_arena', name: '宇宙能量巨獸', nameEn: 'Cosmic Beast', icon: '💥', health: 5 }
+    { area: 'the_end', name: '終界使者', nameEn: 'Enderman', icon: '🌌', health: 5 },
+    { area: 'the_end', name: '終界龍', nameEn: 'Ender Dragon', icon: '🐲', health: 5 }
 
 ];
 

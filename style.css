@@ -1,41 +1,47 @@
 :root {
-    /* Color Palette */
-    --primary-bg: #0f0e17;
-    --secondary-bg: #1a1924;
-    --accent-purple: #7f5af0;
-    --accent-pink: #ff006e;
-    --accent-cyan: #72ddf7;
-    --accent-yellow: #ffd23f;
-    --accent-green: #06ffa5;
-    --text-primary: #fffffe;
-    --text-secondary: #a7a9be;
-    --success: #06ffa5;
-    --danger: #ff006e;
-    --warning: #ffd23f;
+    /* Minecraft Color Palette */
+    --primary-bg: #1e1e1e;
+    --secondary-bg: #3c3c3c;
+    --accent-purple: #a166ff;
+    --accent-pink: #ff4db1;
+    --accent-cyan: #4deeea;
+    --accent-yellow: #ffea00;
+    --accent-green: #528044;
+    /* Grass Green */
+    --text-primary: #ffffff;
+    --text-secondary: #bfbfbf;
+    --success: #4fac58;
+    /* Creeper Green */
+    --danger: #ff0000;
+    /* TNT Red */
+    --warning: #ffaa00;
+    /* Gold */
+    --dirt-brown: #866043;
+    --stone-grey: #808080;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-success: linear-gradient(135deg, #06ffa5 0%, #00d4ff 100%);
-    --gradient-danger: linear-gradient(135deg, #ff006e 0%, #ff4d00 100%);
-    --gradient-monster: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-primary: linear-gradient(135deg, #528044 0%, #2e4d23 100%);
+    --gradient-success: linear-gradient(135deg, #4fac58 0%, #2e6234 100%);
+    --gradient-danger: linear-gradient(135deg, #ff0000 0%, #800000 100%);
+    --gradient-monster: linear-gradient(135deg, #808080 0%, #404040 100%);
 
-    /* Spacing - Compact for single-screen view */
+    /* Spacing */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 0.75rem;
     --space-lg: 1rem;
     --space-xl: 1.25rem;
 
-    /* Border Radius */
-    --radius-sm: 0.4rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
-    --radius-xl: 1.5rem;
+    /* Border Radius - Square for Minecraft */
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
 
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    /* Shadows - Sharp for Minecraft */
+    --shadow-sm: 4px 4px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 6px 6px 0 rgba(0, 0, 0, 0.5);
+    --shadow-lg: 8px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -45,12 +51,13 @@
 }
 
 body {
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'VT323', 'Noto Sans TC', monospace;
     background: var(--primary-bg);
     color: var(--text-primary);
     overflow-x: hidden;
     min-height: 100vh;
     position: relative;
+    image-rendering: pixelated;
 }
 
 /* Animated Stars Background */
@@ -132,7 +139,7 @@ body {
     margin-bottom: var(--space-sm);
     padding: var(--space-md);
     background: var(--gradient-primary);
-    border-radius: var(--radius-lg);
+    border: 4px solid var(--secondary-bg);
     box-shadow: var(--shadow-lg);
     animation: slideDown 0.6s ease-out;
 }
@@ -187,7 +194,7 @@ body {
     margin-bottom: var(--space-sm);
     padding: var(--space-sm);
     background: var(--secondary-bg);
-    border-radius: var(--radius-lg);
+    border: 2px solid var(--dirt-brown);
     box-shadow: var(--shadow-md);
 }
 
@@ -273,7 +280,7 @@ body {
     margin-bottom: var(--space-sm);
     padding: var(--space-md);
     background: var(--secondary-bg);
-    border-radius: var(--radius-lg);
+    border: 4px solid var(--stone-grey);
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -539,10 +546,9 @@ body {
     width: 220px;
     height: 22px;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 2px solid var(--accent-purple);
+    border: 2px solid var(--stone-grey);
     position: relative;
+    box-shadow: inset 2px 2px 0 #000;
 }
 
 .health-fill {
@@ -678,13 +684,12 @@ body {
 .quest-item {
     background: var(--secondary-bg);
     padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     gap: var(--space-sm);
     box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 2px solid var(--stone-grey);
 }
 
 .quest-item:hover {

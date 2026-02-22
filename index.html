@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 早起勇者 - 打怪起床</title>
-    <meta name="description" content="早起勇者 - 專為小朋友設計的趣味起床任務遊戲">
+    <title>⛏️ 麥塊勇者 - 打怪起床</title>
+    <meta name="description" content="麥塊勇者 - 專為小朋友設計的趣味起床任務遊戲">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=VT323&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,7 +18,7 @@
     <div class="container">
         <!-- Header -->
         <header class="game-header">
-            <h1>🎮 早起勇者</h1>
+            <h1>⛏️ 麥塊勇者</h1>
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-label">⭐ 關卡</span>
@@ -37,26 +38,24 @@
         <!-- Map Progress -->
         <div class="map-progress">
             <div class="map-track">
-                <div class="map-node" data-area="candyland">🍬</div>
-                <div class="map-node" data-area="space">🚀</div>
-                <div class="map-node" data-area="toyfactory">🧸</div>
-                <div class="map-node" data-area="sky">☁️</div>
-                <div class="map-node" data-area="ultimate_arena">👑</div>
+                <div class="map-node" data-area="overworld">🌳</div>
+                <div class="map-node" data-area="nether">🔥</div>
+                <div class="map-node" data-area="the_end">🌌</div>
             </div>
-            <div class="hero-marker" id="heroMarker">🦸</div>
+            <div class="hero-marker" id="heroMarker">🧑‍🌾</div>
         </div>
 
         <!-- Battle Arena -->
         <div class="battle-arena">
             <div class="monster-container">
                 <div class="monster-sprite" id="monsterSprite">
-                    <span class="monster-icon" id="monsterIcon">👹</span>
+                    <span class="monster-icon" id="monsterIcon">🧟</span>
                     <div class="damage-numbers" id="damageNumbers"></div>
                     <div class="defeat-effects" id="defeatEffects"></div>
                 </div>
                 <div class="monster-info">
-                    <h2 id="monsterName">糖果爆爆熊</h2>
-                    <div class="monster-name-en" id="monsterNameEn">Candy Boom Bear</div>
+                    <h2 id="monsterName">殭屍</h2>
+                    <div class="monster-name-en" id="monsterNameEn">Zombie</div>
                     <div class="health-bar-container">
                         <div class="health-bar" id="monsterHealth">
                             <div class="health-fill" id="healthFill"></div>
