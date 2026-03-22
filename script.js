@@ -17,31 +17,11 @@ const gameState = {
 
 // Monster Data
 const monsters = [
-    // { area: 'forest', name: '森林哥布林', icon: '👹', health: 5 },
-    // { area: 'forest', name: '樹妖精靈', icon: '🧚', health: 5 },
-    // { area: 'desert', name: '沙漠蠍子王', icon: '🦂', health: 5 },
-    // { area: 'desert', name: '火焰駱駝', icon: '🐫', health: 5 },
-    // { area: 'ocean', name: '深海章魚怪', icon: '🐙', health: 5 },
-    // { area: 'ocean', name: '鯊魚騎士', icon: '🦈', health: 5 },
-    // { area: 'mountain', name: '雪山雪怪', icon: '🦍', health: 5 },
-    // { area: 'mountain', name: '冰霜巨龍', icon: '🐲', health: 5 },
-    // { area: 'castle', name: '暗黑騎士', icon: '⚔️', health: 5 },
-    // { area: 'castle', name: '終極魔王', icon: '😈', health: 5 }
-    { area: 'overworld', name: '殭屍', nameEn: 'Zombie', icon: '🧟', health: 5 },
-    { area: 'overworld', name: '苦力怕', nameEn: 'Creeper', icon: '💥', health: 5 },
-
-    { area: 'overworld', name: '骷髏', nameEn: 'Skeleton', icon: '💀', health: 5 },
-    { area: 'overworld', name: '蜘蛛', nameEn: 'Spider', icon: '🕷️', health: 5 },
-
-    { area: 'nether', name: '烈焰使者', nameEn: 'Blaze', icon: '🔥', health: 5 },
-    { area: 'nether', name: '地獄幽靈', nameEn: 'Ghast', icon: '👻', health: 5 },
-
-    { area: 'nether', name: '豬靈', nameEn: 'Piglin', icon: '🐷', health: 5 },
-    { area: 'nether', name: '凋零骷髏', nameEn: 'Wither Skeleton', icon: '💀', health: 5 },
-
-    { area: 'the_end', name: '終界使者', nameEn: 'Enderman', icon: '🌌', health: 5 },
-    { area: 'the_end', name: '終界龍', nameEn: 'Ender Dragon', icon: '🐲', health: 5 }
-
+    { area: 'plains', name: '栗寶寶', nameEn: 'Goomba', icon: '🍄', health: 5 },
+    { area: 'underground', name: '慢慢龜', nameEn: 'Koopa Troopa', icon: '🐢', health: 5 },
+    { area: 'underwater', name: '炸彈兵', nameEn: 'Bob-omb', icon: '💣', health: 5 },
+    { area: 'ghost', name: '害羞幽靈', nameEn: 'Boo', icon: '👻', health: 5 },
+    { area: 'castle', name: '庫巴', nameEn: 'Bowser', icon: '🦖', health: 5 }
 ];
 
 let currentMonster = null;
@@ -91,7 +71,7 @@ function checkNewDay() {
         // If successful yesterday, advance to next level
         if (wasYesterdaySuccessful) {
             gameState.currentLevel++;
-            gameState.currentArea = Math.floor((gameState.currentLevel - 1) / 2);
+            gameState.currentArea = (gameState.currentLevel - 1) % 5;
         }
         // If failed, retry the same level (currentLevel stays the same)
 
@@ -125,7 +105,7 @@ function selectMonster() {
     currentHealth = currentMonster.health;
 
     // Update area
-    gameState.currentArea = Math.floor((gameState.currentLevel - 1) / 2);
+    gameState.currentArea = (gameState.currentLevel - 1) % 5;
 }
 
 // Update UI
