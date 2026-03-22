@@ -18,9 +18,18 @@ const gameState = {
 // Monster Data
 const monsters = [
     { area: 'plains', name: '栗寶寶', nameEn: 'Goomba', icon: '🍄', health: 5 },
-    { area: 'underground', name: '慢慢龜', nameEn: 'Koopa Troopa', icon: '🐢', health: 5 },
-    { area: 'underwater', name: '炸彈兵', nameEn: 'Bob-omb', icon: '💣', health: 5 },
+    { area: 'plains', name: '慢慢龜', nameEn: 'Koopa Troopa', icon: '🐢', health: 5 },
+
+    { area: 'underground', name: '吞食花', nameEn: 'Piranha Plant', icon: '🪴', health: 5 },
+    { area: 'underground', name: '碎碎龜', nameEn: 'Dry Bones', icon: '🦴', health: 5 },
+
+    { area: 'underwater', name: '泡泡魚', nameEn: 'Cheep Cheep', icon: '🐠', health: 5 },
+    { area: 'underwater', name: '魷魷', nameEn: 'Blooper', icon: '🦑', health: 5 },
+
     { area: 'ghost', name: '害羞幽靈', nameEn: 'Boo', icon: '👻', health: 5 },
+    { area: 'ghost', name: '炸彈兵', nameEn: 'Bob-omb', icon: '💣', health: 5 },
+
+    { area: 'castle', name: '庫巴 Jr.', nameEn: 'Bowser Jr.', icon: '🤡', health: 5 },
     { area: 'castle', name: '庫巴', nameEn: 'Bowser', icon: '🦖', health: 5 }
 ];
 
@@ -71,7 +80,7 @@ function checkNewDay() {
         // If successful yesterday, advance to next level
         if (wasYesterdaySuccessful) {
             gameState.currentLevel++;
-            gameState.currentArea = (gameState.currentLevel - 1) % 5;
+            gameState.currentArea = Math.floor(((gameState.currentLevel - 1) % monsters.length) / 2);
         }
         // If failed, retry the same level (currentLevel stays the same)
 
@@ -105,7 +114,7 @@ function selectMonster() {
     currentHealth = currentMonster.health;
 
     // Update area
-    gameState.currentArea = (gameState.currentLevel - 1) % 5;
+    gameState.currentArea = Math.floor(monsterIndex / 2);
 }
 
 // Update UI
