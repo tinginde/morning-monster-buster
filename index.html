@@ -32,6 +32,10 @@
                     <span class="stat-label">🏆 總勝</span>
                     <span class="stat-value" id="totalWins">0</span>
                 </div>
+                <div class="stat-item">
+                    <span class="stat-label">🌟 早鳥</span>
+                    <span class="stat-value" id="earlyBirdStars">0</span>
+                </div>
             </div>
         </header>
 
@@ -65,6 +69,16 @@
                         <span class="health-text" id="healthText">5/5</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Start Day Overlay -->
+        <div class="start-overlay" id="startOverlay">
+            <div class="start-content">
+                <h2>🌅 早安小勇者！</h2>
+                <p>現在時間：<span id="currentTimeDisplay">--:--</span></p>
+                <button class="btn-primary start-btn" id="startDayBtn">開始今天的冒險！</button>
+                <div class="early-bird-hint">💡 7:15 前按下開始，會獲得無敵星星⭐！</div>
             </div>
         </div>
 

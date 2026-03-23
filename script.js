@@ -12,7 +12,9 @@ const gameState = {
         fishoil: false,
         door: false,
         toilet: false
-    }
+    },
+    todayStarted: false,
+    earlyBirdStars: 0
 };
 
 // Monster Data
@@ -41,10 +43,24 @@ let timeBonus = false;
 // Initialize Game
 function initGame() {
     loadGameState();
+    
+    // Add missing properties for backward compatibility
+    if (gameState.earlyBirdStars === undefined) gameState.earlyBirdStars = 0;
+    if (gameState.todayStarted === undefined) gameState.todayStarted = false;
+
     checkNewDay();
     updateUI();
     setupEventListeners();
     startCountdown();
+
+    // Update real-time clock for start screen
+    setInterval(updateCurrentTimeDisplay, 1000);
+    updateCurrentTimeDisplay();
+
+    // Check if we need to show start overlay
+    if (!gameState.todayStarted && currentHealth > 0) {
+        document.getElementById('startOverlay').classList.add('active');
+    }
 
     // If monster is already defeated today, lock quests
     if (currentHealth <= 0) {
@@ -85,6 +101,7 @@ function checkNewDay() {
         // If failed, retry the same level (currentLevel stays the same)
 
         // Reset daily quests for new day
+        gameState.todayStarted = false;
         Object.keys(gameState.quests).forEach(key => {
             gameState.quests[key] = false;
         });
@@ -123,6 +140,7 @@ function updateUI() {
     document.getElementById('currentLevel').textContent = gameState.currentLevel;
     document.getElementById('streak').textContent = gameState.streak;
     document.getElementById('totalWins').textContent = gameState.totalWins;
+    document.getElementById('earlyBirdStars').textContent = gameState.earlyBirdStars || 0;
 
     // Update monster
     document.getElementById('monsterIcon').textContent = currentMonster.icon;
@@ -200,6 +218,47 @@ function setupEventListeners() {
 
     // Retry button
     document.getElementById('retryBtn').addEventListener('click', closeModals);
+
+    // Start Day button
+    const startDayBtn = document.getElementById('startDayBtn');
+    if (startDayBtn) {
+        startDayBtn.addEventListener('click', handleStartDay);
+    }
+}
+
+function updateCurrentTimeDisplay() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const display = document.getElementById('currentTimeDisplay');
+    if (display) display.textContent = `${hours}:${minutes}`;
+}
+
+function handleStartDay() {
+    gameState.todayStarted = true;
+    document.getElementById('startOverlay').classList.remove('active');
+    
+    // Check if early bird
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    // 7:15 threshold
+    const isEarly = (hours < 7) || (hours === 7 && minutes <= 15);
+    
+    if (isEarly) {
+        gameState.earlyBirdStars++;
+        document.getElementById('earlyBirdStars').textContent = gameState.earlyBirdStars;
+        
+        // Attack monster preemptively
+        setTimeout(() => {
+            alert('🌟 早鳥獎勵！無敵星星先發制人，怪獸受到傷害了💥！');
+            attackMonster(1);
+            saveGameState();
+        }, 500);
+    }
+    
+    saveGameState();
 }
 
 // Handle quest completion
