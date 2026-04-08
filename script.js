@@ -14,7 +14,9 @@ const gameState = {
         toilet: false
     },
     todayStarted: false,
-    earlyBirdStars: 0
+    earlyBirdStars: 0,
+    dailyBonusDamage: 0,
+    doorTimeBonus: false
 };
 
 // Monster Data
@@ -47,6 +49,8 @@ function initGame() {
     // Add missing properties for backward compatibility
     if (gameState.earlyBirdStars === undefined) gameState.earlyBirdStars = 0;
     if (gameState.todayStarted === undefined) gameState.todayStarted = false;
+    if (gameState.dailyBonusDamage === undefined) gameState.dailyBonusDamage = 0;
+    if (gameState.doorTimeBonus === undefined) gameState.doorTimeBonus = false;
 
     checkNewDay();
     updateUI();
@@ -102,6 +106,8 @@ function checkNewDay() {
 
         // Reset daily quests for new day
         gameState.todayStarted = false;
+        gameState.dailyBonusDamage = 0;
+        gameState.doorTimeBonus = false;
         Object.keys(gameState.quests).forEach(key => {
             gameState.quests[key] = false;
         });
@@ -120,7 +126,8 @@ function checkNewDay() {
 
         // Calculate current health based on completed quests
         const completedCount = Object.values(gameState.quests).filter(q => q).length;
-        currentHealth = currentMonster.health - completedCount;
+        let bonus = (gameState.dailyBonusDamage || 0) + (gameState.doorTimeBonus ? 1 : 0);
+        currentHealth = Math.max(0, currentMonster.health - completedCount - bonus);
     }
 }
 
@@ -248,6 +255,7 @@ function handleStartDay() {
     
     if (isEarly) {
         gameState.earlyBirdStars++;
+        gameState.dailyBonusDamage = 1;
         document.getElementById('earlyBirdStars').textContent = gameState.earlyBirdStars;
         
         // Attack monster preemptively
@@ -255,6 +263,7 @@ function handleStartDay() {
             alert('🌟 早鳥獎勵！無敵星星先發制人，怪獸受到傷害了💥！');
             attackMonster(1);
             saveGameState();
+            checkVictory();
         }, 500);
     }
     
@@ -272,14 +281,31 @@ function handleQuestComplete(questId, isChecked) {
         questItem.classList.add('attack');
         setTimeout(() => questItem.classList.remove('attack'), 500);
 
+        let damage = 1;
+        if (questId === 'door') {
+            if (timeBonus) {
+                damage = 2;
+                gameState.doorTimeBonus = true;
+            } else {
+                gameState.doorTimeBonus = false;
+            }
+        }
+
         // Damage monster
-        attackMonster(questId === 'door' && timeBonus ? 2 : 1);
+        attackMonster(damage);
 
         questItem.classList.add('completed');
     } else {
+        if (questId === 'door') {
+            gameState.doorTimeBonus = false;
+        }
+
         // Heal monster if unchecked
-        currentHealth = Math.min(currentHealth + 1, currentMonster.health);
+        const completedCount = Object.values(gameState.quests).filter(q => q).length;
+        let bonus = (gameState.dailyBonusDamage || 0) + (gameState.doorTimeBonus ? 1 : 0);
+        currentHealth = Math.max(0, Math.min(currentMonster.health, currentMonster.health - completedCount - bonus));
         updateHealthBar();
+
         questItem.classList.remove('completed');
     }
 
